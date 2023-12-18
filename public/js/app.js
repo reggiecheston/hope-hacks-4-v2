@@ -18,71 +18,87 @@ movieForm.addEventListener("submit", async (e) => {
     `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
       movieTitle
     )}&api_key=${APIKEY}`
-  )
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.clone().json();
-    })
-    .then((data) => {
-      if (!data.results || data.results.length === 0) {
+  ).then((response) => {
+    response.json().then((data) => {
+      if (data.total_results === 0) {
         searchResults.textContent = "";
         searchResults.insertAdjacentHTML(
           "afterbegin",
           `<div class="results-count">
                     <small>Your search didn't match any movies.</small>
-            </div>`
+                </div>`
         );
       } else {
-        const id = data.results[0].id;
-        return fetch(
-          `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${APIKEY}`
-        ).then((similarResponse) => similarResponse.json());
-      }
-    })
-    .then((data) => {
-      searchResults.textContent = "";
-
-      if (!data || !data.results || data.results.length === 0) {
+        searchResults.textContent = "";
         searchResults.insertAdjacentHTML(
           "afterbegin",
           `<div class="results-count">
-                <small>Your search didn't match any movies.</small>
+                  <small>${data.results.length} results for "${movieTitle}"</small>
               </div>`
         );
-        return;
-      } else {
-        searchResults.insertAdjacentHTML(
-          "afterbegin",
-          `<div class="results-count">
-                <small>${data.results.length} results</small>
+        data.results.forEach((m) =>
+          searchResults.insertAdjacentHTML(
+            "beforeend",
+            `<div class="search-result">
+                      <img src="https://image.tmdb.org/t/p/w300/${m.poster_path}" alt="${m.original_title} poster">
+                      <div class="movie-details">
+                          <h3 class="movie-title">${m.original_title}</h3>
+                          <p class="movie-overview">${m.overview}</p>
+                          <div class="movie-details__btns">
+                            <button class="movie-details__btn">More Info</button>
+                            <button class="movie-details__btn cta-btn">Similar Movies</button>
+                          </div>
+                    </div>
             </div>`
+          )
         );
       }
-
-      data.results.forEach((m) =>
-        searchResults.insertAdjacentHTML(
-          "beforeend",
-          `<div class="search-result">
-                <img src="https://image.tmdb.org/t/p/w300/${m.poster_path}" alt="${m.original_title} poster">
-                <div class="movie-details">
-                    <h3 class="movie-title">${m.original_title}</h3>
-                    <p class="movie-overview">${m.overview}</p>
-                    <button>More Info</button>
-                </div>
-            </div>`
-        )
-      );
-    })
-    .catch((error) => {
-      console.log("Error fetching data:", error);
-      searchResults.textContent = "";
-      searchResults.insertAdjacentHTML(
-        "afterbegin",
-        `<div class="results-count">
-                    <small>An error occurred while fetching data.</small>
-                </div>`
-      );
     });
+  });
+});
+
+const ctaBtn = document.querySelectorAll("cta-btn");
+
+ctaBtn.forEach((btn) => {
+  console.log("Similar Movies button clicked");
+  btn.addEventListener("click", () => {
+    fetch(
+      `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${APIKEY}`
+    ).then((response) => {
+      response.json().then((data) => {
+        if (data.total_results === 0) {
+          searchResults.textContent = "";
+          searchResults.insertAdjacentHTML(
+            "afterbegin",
+            `<div class="results-count">
+                <small>Your search didn't match any movies.</small>
+            </div>`
+          );
+        } else {
+          searchResults.textContent = "";
+          searchResults.insertAdjacentHTML(
+            "afterbegin",
+            `<div class="results-count">
+                            <small>${data.results.length} results for "${movieTitle}"</small>
+                        </div>`
+          );
+          data.results.forEach((m) =>
+            searchResults.insertAdjacentHTML(
+              "beforeend",
+              `<div class="search-result">
+                    <img src="https://image.tmdb.org/t/p/w300/${m.poster_path}" alt="${m.original_title} poster">
+                    <div class="movie-details">
+                        <h3 class="movie-title">${m.original_title}</h3>
+                        <p class="movie-overview">${m.overview}</p>
+                        <div class="movie-details__btns">
+                            <button class="movie-details__btn">More Info</button>
+                        </div>
+                    </div>
+                  </div>`
+            )
+          );
+        }
+      });
+    });
+  });
 });

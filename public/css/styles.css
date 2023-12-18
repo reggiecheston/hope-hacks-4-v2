@@ -137,8 +137,18 @@ img {
   padding-bottom: 1.5rem;
 }
 
-.movie-details button {
+.movie-details__btn {
   width: 5rem;
+}
+
+.cta-btn {
+  width: 7rem;
+  background-color: rgb(226, 140, 64);
+}
+
+.cta-btn:hover,
+.cta-btn:active {
+  background-color: rgb(221, 168, 121);
 }
 
 footer {
