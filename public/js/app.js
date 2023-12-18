@@ -46,7 +46,7 @@ movieForm.addEventListener("submit", async (e) => {
                           <p class="movie-overview">${m.overview}</p>
                           <div class="movie-details__btns">
                             <button class="movie-details__btn">More Info</button>
-                            <button class="movie-details__btn cta-btn">Similar Movies</button>
+                            <button class="movie-details__btn cta-btn" data-movie-id="${m.id}">Similar Movies</button>
                           </div>
                     </div>
             </div>`
@@ -57,11 +57,12 @@ movieForm.addEventListener("submit", async (e) => {
   });
 });
 
-const ctaBtn = document.querySelectorAll("cta-btn");
+const ctaBtn = document.querySelectorAll(".cta-btn");
 
 ctaBtn.forEach((btn) => {
-  console.log("Similar Movies button clicked");
   btn.addEventListener("click", () => {
+    const id = btn.dataset.movieId;
+    console.log(id);
     fetch(
       `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${APIKEY}`
     ).then((response) => {
@@ -79,7 +80,7 @@ ctaBtn.forEach((btn) => {
           searchResults.insertAdjacentHTML(
             "afterbegin",
             `<div class="results-count">
-                            <small>${data.results.length} results for "${movieTitle}"</small>
+                            <small>${data.results.length} results</small>
                         </div>`
           );
           data.results.forEach((m) =>
