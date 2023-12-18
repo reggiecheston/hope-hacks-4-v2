@@ -3,12 +3,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movies</title>
+    <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
+      {{>header}}
     <div class="main-content">
-      {{!-- {{>header}} --}}
 
-      <p>Search Movies!</p>
+      <h2>Search Movies!</h2>
 
       <form>
         <input name="movieTitle" placeholder="Movie Title" />
@@ -19,7 +20,7 @@
 
       </div>
     </div>
-    {{!-- {{>footer}} --}}
+    {{>footer}}
     <script src="/js/app.js"></script>
   </body>
 </html>

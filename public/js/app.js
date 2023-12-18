@@ -26,11 +26,18 @@ movieForm.addEventListener("submit", async (e) => {
         searchResults.textContent = "";
         data.results.forEach((m) =>
           searchResults.insertAdjacentHTML(
-            "afterbegin",
-            `<img src="${m.poster_path}" alt="${m.original_title} poster">
-              <div class="movie-details">
-                <h2 class="movie-title">${m.original_title}</h2>
-                <p class="movie-overview">${m.overview}</p>
+            "beforeend",
+            `<div class="search-result">
+                <img src="https://image.tmdb.org/t/p/w400/${
+                  m.poster_path
+                }" alt="${m.original_title} poster">
+                <div class="movie-details">
+                    <h3 class="movie-title">${m.original_title}</h3>
+                    <p class="movie-overview">${
+                      m.overview.split(" ").length < 20
+                        ? m.overview
+                        : m.overview.split(" ").slice(0, 20).join(" ") + "..."
+                    }</p>
               </div>`
           )
         );
