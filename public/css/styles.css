@@ -25,12 +25,12 @@ header {
   justify-content: space-around;
 }
 
-h1 {
-  color: rgb(64, 148, 226);
+h1 a {
+  color: rgb(226, 140, 64);
   text-align: center;
   font-size: 3rem;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: normal;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  text-decoration: none;
 }
 
 .search-bar {
@@ -47,7 +47,8 @@ h1 {
 }
 
 .link {
-  padding-right: 2rem;
+  padding: 0.35rem 0.5rem;
+  margin-right: 1rem;
   text-decoration: none;
   color: white;
 }
@@ -56,6 +57,19 @@ h1 {
 .link:active {
   color: grey;
   cursor: pointer;
+}
+
+.link-cta {
+  background-color: rgb(226, 140, 64);
+  border-radius: 2rem;
+  color: black;
+  font-size: 0.85rem;
+}
+
+.link-cta:hover,
+.link-cta:active {
+  background-color: rgb(221, 168, 121);
+  color: black;
 }
 
 form {

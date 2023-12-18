@@ -40,15 +40,15 @@ movieForm.addEventListener("submit", async (e) => {
           searchResults.insertAdjacentHTML(
             "beforeend",
             `<div class="search-result">
-                      <img src="https://image.tmdb.org/t/p/w300/${m.poster_path}" alt="${m.original_title} poster">
-                      <div class="movie-details">
-                          <h3 class="movie-title">${m.original_title}</h3>
-                          <p class="movie-overview">${m.overview}</p>
-                          <div class="movie-details__btns">
-                            <button class="movie-details__btn">More Info</button>
-                            <button class="movie-details__btn cta-btn" data-movie-id="${m.id}">Similar Movies</button>
-                          </div>
+                <img src="https://image.tmdb.org/t/p/w300/${m.poster_path}" alt="${m.original_title} poster">
+                <div class="movie-details">
+                    <h3 class="movie-title">${m.original_title}</h3>
+                    <p class="movie-overview">${m.overview}</p>
+                    <div class="movie-details__btns">
+                        <button class="movie-details__btn">More Info</button>
+                        <button class="movie-details__btn cta-btn" data-movie-id="${m.id}" data-title="${m.original_title}">Similar Movies</button>
                     </div>
+                </div>
             </div>`
           )
         );
@@ -58,18 +58,21 @@ movieForm.addEventListener("submit", async (e) => {
 
         ctaBtn.forEach((btn) => {
           btn.addEventListener("click", () => {
+            // window.scrollY(0);
             const id = btn.dataset.movieId;
+            const title = btn.dataset.title;
             console.log(id);
             fetch(
               `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${APIKEY}`
             ).then((response) => {
               response.json().then((data) => {
+                console.log(data);
                 if (data.total_results === 0) {
                   searchResults.textContent = "";
                   searchResults.insertAdjacentHTML(
                     "afterbegin",
                     `<div class="results-count">
-                <small>Your search didn't match any movies.</small>
+                <small>"${title}" is one of a kind! Try another search.</small>
             </div>`
                   );
                 } else {
@@ -77,22 +80,22 @@ movieForm.addEventListener("submit", async (e) => {
                   searchResults.insertAdjacentHTML(
                     "afterbegin",
                     `<div class="results-count">
-                            <small>${data.results.length} results</small>
+                            <small>${data.results.length} results for movies similar to "${title}"</small>
                         </div>`
                   );
                   data.results.forEach((m) =>
                     searchResults.insertAdjacentHTML(
                       "beforeend",
                       `<div class="search-result">
-                    <img src="https://image.tmdb.org/t/p/w300/${m.poster_path}" alt="${m.original_title} poster">
-                    <div class="movie-details">
-                        <h3 class="movie-title">${m.original_title}</h3>
-                        <p class="movie-overview">${m.overview}</p>
-                        <div class="movie-details__btns">
-                            <button class="movie-details__btn">More Info</button>
-                        </div>
-                    </div>
-                  </div>`
+                            <img src="https://image.tmdb.org/t/p/w300/${m.poster_path}" alt="${m.original_title} poster">
+                            <div class="movie-details">
+                                <h3 class="movie-title">${m.original_title}</h3>
+                                <p class="movie-overview">${m.overview}</p>
+                                <div class="movie-details__btns">
+                                    <button class="movie-details__btn">More Info</button>
+                                </div>
+                            </div>
+                        </div>`
                     )
                   );
                 }

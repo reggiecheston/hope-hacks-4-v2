@@ -16,7 +16,7 @@ hbs.registerPartials(partialsPath);
 
 app.use(express.static(publicDirectoryPath));
 
-app.get("", (req, res) => {
+app.get("/", (req, res) => {
   res.render("index", {
     title: "Search Movies",
     name: "Reggie Cheston",
@@ -46,6 +46,13 @@ app.get("/movies", async (req, res) => {
       });
     });
   }
+});
+
+app.use("*", (req, res) => {
+  res.send(404).render("404", {
+    title: "404",
+    name: "Reggie Cheston",
+  });
 });
 
 app.listen(4000, () => console.log("Server listening on port 4000..."));
