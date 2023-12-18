@@ -48,8 +48,10 @@ app.get("/movies", async (req, res) => {
   }
 });
 
+// res.sendStatus(404).
+
 app.use("*", (req, res) => {
-  res.send(404).render("404", {
+  res.render("404", {
     title: "404",
     name: "Reggie Cheston",
   });

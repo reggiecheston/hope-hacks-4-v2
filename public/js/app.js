@@ -1,18 +1,14 @@
 const movieForm = document.querySelector("form");
 const search = document.querySelector("input");
 const searchResults = document.getElementById("search-results");
+const pageTitle = document.querySelector("h1");
 
 const APIKEY = "cecf8342c3d41e9e916ff0a82acd0445";
-
-// const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
-//     movieTitle
-//   )}&api_key=${APIKEY}`;
 
 movieForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const movieTitle = search.value.trim();
-  //   const id = (searchResults.textContent = "Loading...");
 
   fetch(
     `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
@@ -58,10 +54,15 @@ movieForm.addEventListener("submit", async (e) => {
 
         ctaBtn.forEach((btn) => {
           btn.addEventListener("click", () => {
-            // window.scrollY(0);
             const id = btn.dataset.movieId;
             const title = btn.dataset.title;
             console.log(id);
+
+            // Scroll to the top of the page
+            window.scrollTo({
+              top: 0,
+            });
+
             fetch(
               `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${APIKEY}`
             ).then((response) => {
@@ -106,4 +107,9 @@ movieForm.addEventListener("submit", async (e) => {
       }
     });
   });
+});
+
+pageTitle.addEventListener("click", () => {
+  search.value = "";
+  searchResults.textContent = "";
 });

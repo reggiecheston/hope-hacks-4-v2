@@ -25,12 +25,33 @@ header {
   justify-content: space-around;
 }
 
-h1 a {
+.hamburger-menu__items {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  transform: translateX(-100vw);
+  height: 100vh;
+  width: 100vh;
+  opacity: 0;
+  transition: transform 400ms ease, opacity 400ms ease;
+  visibility: hidden;
+}
+
+.open {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+h1 {
   color: rgb(226, 140, 64);
   text-align: center;
   font-size: 3rem;
   font-family: Georgia, "Times New Roman", Times, serif;
-  text-decoration: none;
+}
+
+h1:hover {
+  cursor: pointer;
 }
 
 .search-bar {
@@ -176,15 +197,12 @@ footer {
 }
 
 /* Media queries */
-/* 
+
 @media (min-width: 769px) {
-  .grid {
-    grid-template-columns: repeat(2, auto);
-  }
 }
 
 @media (min-width: 1025px) {
-  .grid {
-    grid-template-columns: repeat(3, auto);
+  .hamburger-menu {
+    visibility: hidden;
   }
-} */
+}
