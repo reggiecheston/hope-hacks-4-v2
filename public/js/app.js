@@ -28,16 +28,11 @@ movieForm.addEventListener("submit", async (e) => {
           searchResults.insertAdjacentHTML(
             "beforeend",
             `<div class="search-result">
-                <img src="https://image.tmdb.org/t/p/w400/${
-                  m.poster_path
-                }" alt="${m.original_title} poster">
+                <img src="https://image.tmdb.org/t/p/w300/${m.poster_path}" alt="${m.original_title} poster">
                 <div class="movie-details">
                     <h3 class="movie-title">${m.original_title}</h3>
-                    <p class="movie-overview">${
-                      m.overview.split(" ").length < 20
-                        ? m.overview
-                        : m.overview.split(" ").slice(0, 20).join(" ") + "..."
-                    }</p>
+                    <p class="movie-overview">${m.overview}</p>
+                    <button>More Info</button>
               </div>`
           )
         );

@@ -12,7 +12,7 @@ body {
 
 .main-content {
   max-width: 64rem;
-  margin: 2rem auto;
+  margin: 4rem auto;
   min-height: calc(100vh - 24rem);
 }
 
@@ -25,13 +25,6 @@ h1 {
   color: rgb(64, 148, 226);
   text-align: center;
   font-size: 3rem;
-}
-
-h2 {
-  text-align: center;
-  padding-top: 2rem;
-  margin: 2rem auto;
-  font-size: 2rem;
 }
 
 form {
@@ -56,34 +49,44 @@ button {
   border-radius: 0.25rem;
 }
 
-#search-results {
+/* #search-results {
   display: grid;
   grid-template-columns: repeat(3, auto);
   grid-auto-columns: auto;
   gap: 3rem;
-}
+} */
 
 .search-result {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding-bottom: 2rem;
+  padding: 2rem 0;
+  border-top: 1px grey solid;
+  border-bottom: 1px grey solid;
+}
+
+.movie-details {
+  display: flex;
+  flex-direction: column;
+  padding-left: 2rem;
 }
 
 img {
-  height: 25rem;
-  padding-bottom: 1rem;
+  width: 18.75rem;
 }
 
 .movie-title {
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: bold;
-  text-align: center;
   padding-bottom: 1.5rem;
 }
 
 .movie-overview {
   font-size: 0.75rem;
+  padding-bottom: 1.5rem;
+}
+
+.movie-details button {
+  width: 5rem;
 }
 
 footer {
