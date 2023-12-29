@@ -1,10 +1,14 @@
 const express = require("express");
+const dotenv = require("dotenv");
+// const fetch = require("node-fetch");
 const path = require("path");
 const hbs = require("hbs");
-const searchMovies = require("./utils/search");
-const similarMovies = require("./utils/similar-movies");
+const searchExercise = require("./utils/search-exercise");
+
+dotenv.config();
 
 const app = express();
+const port = 8000;
 
 const publicDirectoryPath = path.join(__dirname, "../public");
 const viewsPath = path.join(__dirname, "../templates/views");
@@ -23,32 +27,19 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/movies", async (req, res) => {
-  if (!req.query.title) {
-    return res.send({
-      error: "Please provide a valid movie title",
-    });
-  } else {
-    searchMovies(req.query.title, (error, { id, title, overview } = {}) => {
-      if (error) {
-        return res.send({ error });
-      }
-      similarMovies(id, (error, searchResult) => {
-        if (error) {
-          return res.send({ error });
-        }
-        res.send({
-          result: searchResult,
-          title,
-          overview,
-          poster,
-        });
-      });
-    });
-  }
-});
+app.get("/api/exercises", async (req, res) => {
+  const muscleGroup = req.query.muscle;
+  const apiKey = process.env.API_KEY;
 
-// res.sendStatus(404).
+  const response = await fetch(
+    `https://api.api-ninjas.com/v1/exercises?muscle=${encodeURIComponent(
+      muscleGroup
+    )}&x-api-key=${apiKey}`
+  );
+  const data = await response.json();
+
+  res.json(data);
+});
 
 app.use("*", (req, res) => {
   res.render("404", {
@@ -57,4 +48,4 @@ app.use("*", (req, res) => {
   });
 });
 
-app.listen(4000, () => console.log("Server listening on port 4000..."));
+app.listen(port, () => console.log(`http://localhost:${port}/`));
